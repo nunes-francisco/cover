@@ -1,0 +1,68 @@
+version: '3.9'
+
+services:
+  custom_service-1:
+    hostname: '{{.Service.Name}}'
+    image: ${CS_REGISTRY_URL}/${CS_SERVICE_NAME}:${CS_TAG}
+    build:
+      context: .
+      args:
+        - CS_TAG=${CS_TAG}
+        - CS_GIT_ACCESS_TOKEN=${CS_GIT_ACCESS_TOKEN}
+    # environment, configura as variáveis de ambiente necessária para funcionamento da aplicação.
+    # ********************************************- I M P O R T A N T E!-**********************************************
+    # Mantenha apenas as variáveis correspondentes as conexões e parâmetros para sua aplicação removendo as demais, que \
+    # não serão utilizadas, em caso de novas variáveis adicione-as conforme abaixo.
+    environment:
+      - CS_CORTEX_DATABASE_URL=${CS_CORTEX_DATABASE_URL}
+      - CS_HTTP_PORT=${CS_HTTP_PORT}
+      - CS_TAG=${CS_TAG}
+      - CS_REGISTRY_URL=${CS_REGISTRY_URL}
+      - CS_SERVICE_NAME=${CS_SERVICE_NAME}
+      - PYTHONPATH=/app
+      - LOG_LEVEL=${CS_LOG_LEVEL}
+      - LOG_CSRPC=${CS_RPC_LOG_LEVEL}
+    ports:
+      - ${CS_HTTP_PORT}:${CS_HTTP_PORT}
+    command: python /app/${CS_SERVICE_NAME}/__main__.py
+#    Verifica a saúde da API
+#    Ref:
+#    https://docs.docker.com/compose/compose-file/#healthcheck
+#    TODO: habilitar a checagem de saúde do serviço quando possível
+#    healthcheck:
+#      test: python -c "import os; import urllib.request; url=os.getenv('URL'); print(urllib.request.urlopen(url).getcode())" || exit 1
+#      interval: 1m30s
+#      timeout: 10s
+#      retries: 3
+
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+      # https://docs.docker.com/compose/compose-file/deploy/
+      # rollback_config configura como o serviço deve ser revertido em caso de falha na atualização.
+      rollback_config:
+        parallelism: 2 # o número de contêineres a serem revertidos por vez. Se definido como 0, todos os contêineres serão revertidos simultaneamente.
+        delay: 0s # o tempo de espera entre a reversão de cada grupo de contêineres (padrão 0s).
+        failure_action: pause # O que fazer se uma reversão falhar. Um de continueou pause(padrão pause)
+        monitor: 0s # Duração após cada atualização de tarefa para monitorar falha (ns|us|ms|s|m|h)(padrão 0s).
+        max_failure_ratio: 0 # Taxa de falha a ser tolerada durante uma reversão (padrão 0).
+        order: stop-first # Ordem das operações durante reversões. Um de stop-first(a tarefa antiga é interrompida antes de iniciar a nova) ou \
+        # start-first(a nova tarefa é iniciada primeiro e as tarefas em execução se sobrepõem brevemente) (padrão stop-first).
+      # update_configconfigura como o serviço deve ser atualizado. Útil para configurar atualizações contínuas.
+      update_config:
+        parallelism: 2 # o número de contêineres a serem atualizados por vez.
+        delay: 0s # o tempo de espera entre a atualização de um grupo de contêineres.
+        failure_action: rollback # O que fazer se uma atualização falhar. Use continue, rollback, ou pause(padrão: pause).
+        monitor: 0s # Duração após cada atualização de tarefa para monitorar falha (ns|us|ms|s|m|h)(padrão 0s).
+        max_failure_ratio: 0 #
+        order: stop-first # Ordem das operações durante as atualizações. Um de stop-first(a tarefa antiga é interrompida antes de iniciar a nova) ou \
+        # start-first(a nova tarefa é iniciada primeiro e as tarefas em execução se sobrepõem brevemente) (padrão stop-first).
+
+    networks:
+      - cs
+
+networks:
+  cs:

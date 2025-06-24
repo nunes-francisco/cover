@@ -1,0 +1,22 @@
+{% extends 'assets/index_base.html' %}
+
+{% block body %}
+
+    {% include 'menu.html' %}
+
+
+    <img id="indicator"
+         class="htmx-indicator"
+         width="50"
+         src="/csapi/tracking/ui/assets/loading.svg"
+         alt="Carregando ..."
+    />
+
+    <div id="content" class="container">
+        <div class="content">
+            <h1 class="title">{{ SOLUTION_NAME }} ({{ __version__ }})</h1>
+            <p>Nossas boas vindas à solução {{ SOLUTION_NAME }} ({{ __version__ }})</p>
+        </div>
+    </div>
+
+{% endblock %}
