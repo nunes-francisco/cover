@@ -1,6 +1,6 @@
 # `<Nome do Artefato>`
 
-![Capa](./assets/cover3.png)
+![Capa](assets/cover3.png)
 
 ## PRIMEIRAS PROVIDÊNCIAS
 
