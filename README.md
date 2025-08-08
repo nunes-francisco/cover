@@ -52,28 +52,25 @@ Deixar apenas aquelas que realmente irá usar, removendo as demais dos arquivos,
 Isso evitará a propagação de parâmetros desnecessáriamente e evita poluir o ambiente para análises.
 
 > **A V I SO ! 📣**
->
-> Mantenha as variáveis dentro do padrão, sempre começando com prefixo **CS_** para facilitar a identificação e o uso no processo de CI.
-> Ao editar este documento mantenha nele apenas as informações relativas a sua aplicação, exibindo apenas as variáveis ( parâmetros ) que ela utiliza.
+>Ao editar este documento mantenha nele apenas as informações relativas a sua aplicação, exibindo apenas as variáveis ( parâmetros ) que ela utiliza.
 
 | Parâmetro                    | Propósito                                                                 | Exemplo                                |
 | ----------------------------- | -------------------------------------------------------------------------- | -------------------------------------- |
-| `DATABASE_URL`    | 🔗 URL  de conexão ao Abacás ( Redis )                                   | `redis://localhost:6379`             |
-| `MONGODB_POSTAGE_DATABASE_URL` | 🔗 URL  de conexão ao Postage ( Mongodb )                                 | `mongodb://127.0.0.1:27017`          |
-| `CASSANDRA_DATABASE_URL` | 🔗 URL  de conexão ao CSTable  ( Cassandra )                              | `127.0.0.1:9042`                     |
-| `CS_HTTP_PORT`              | 🚪 Porta HTTP do artefato                                                  | `8080`                               |
-| `CS_LOG_LEVEL`              | 🎚 Nível de geração de log                                              | `DEBUG, INFO, ERROR, CRTICAL, NOSET` |
-| `CS_LOG_CSRPC`              | 🎚 Nível de geração de log da lib[CS.RPC](https://github.com/mindbe/csrpc) | `DEBUG, INFO, ERROR, CRTICAL, NOSET` |
+| `DATABASE_URL`    | 🔗 URL  de conexão ao Redis                                   | `redis://localhost:6379`             |
+| `MONGODB_POSTAGE_DATABASE_URL` | 🔗 URL  de conexão ao  Mongodb                                 | `mongodb://127.0.0.1:27017`          |
+| `CASSANDRA_DATABASE_URL` | 🔗 URL  de conexão ao Cassandra                              | `127.0.0.1:9042`                     |
+| `HTTP_PORT`              | 🚪 Porta HTTP do artefato                                                  | `8080`                               |
+| `LOG_LEVEL`              | 🎚 Nível de geração de log                                              | `DEBUG, INFO, ERROR, CRTICAL, NOSET` |
 
 ##### 🐳Variáveis de ambiente usadas internamente no container
 
 | Variável               | Propósito                                                                                                | Valor                          |
 | ----------------------- | --------------------------------------------------------------------------------------------------------- | ------------------------------ |
 | `PYTHONPATH`          | 🔧 Path absoluto do artefato no container                                                                 | `/app`                       |
-| `_REGISTRY_URL`     | 🔗 URL do registro local, repositório de imagens Docker                                                  | `registry.local.com` |
-| `_GIT_ACCESS_TOKEN` | 🔑Token de acesso ao Github                                                                               | `terdsfdsdhjh-sfhfsdgfk` |
-| `_SERVICE_NAME`     | ⚙️ Nomeia o artefato, recbe seu valor dinamicamente                                                     | `SRVICE_NAME=${SRVICE_NAME}` |
-| `_TAG`              | 🏷 Tag da imagem do contêiner, valor dinamicamente do GitHub e deve cosrresponder a versão do artefato. | `_TAG=0.1.0`               |
+| `REGISTRY_URL`     | 🔗 URL do registro local, repositório de imagens Docker                                                  | `registry.local.com` |
+| `GIT_ACCESS_TOKEN` | 🔑Token de acesso ao Github                                                                               | `terdsfdsdhjh-sfhfsdgfk` |
+| `SERVICE_NAME`     | ⚙️ Nomeia o artefato, recbe seu valor dinamicamente                                                     | `SRVICE_NAME=${SRVICE_NAME}` |
+| `TAG`              | 🏷 Tag da imagem do contêiner, valor dinamicamente do GitHub e deve cosrresponder a versão do artefato. | `TAG=0.1.0`               |
 
 Sugere-se criar um arquivo `.env` com as variáveis citadas, quando estiver usando container standalone ou ao executar um serviço Swarm individual.
 
