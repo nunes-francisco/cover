@@ -58,20 +58,9 @@ Isso evitará a propagação de parâmetros desnecessáriamente e evita poluir o
 
 | Parâmetro                    | Propósito                                                                 | Exemplo                                |
 | ----------------------------- | -------------------------------------------------------------------------- | -------------------------------------- |
-| `CS_ABACUS_DATABASE_URL`    | 🔗 URL  de conexão ao Abacás ( Redis )                                   | `redis://localhost:6379`             |
-| `CS_BUREAU_DATABASE_URL`    | 🔗 URL  de conexão ao Bureau ( Redis )                                    | `redis://localhost:6379`             |
-| `CS_CORTEX_DATABASE_URL`    | 🔗URL  de conexão ao Cardex ( Redis )                                     | `redis://localhost:6379`             |
-| `CS_CRUPIE_DATABASE_URL`    | 🔗 URL  de conexão ao CrupieDB ( Redis )                                  | `redis://localhost:6379`             |
-| `CS_CACHING_DATABASE_URL`   | 🔗 URL  de conexão ao Caching ( Redis )                                   | `redis://localhost:6379`             |
-| `CS_FLOOD_DATABASE_URL`     | 🔗 URL  de conexão ao Flood( Redis )                                      | `redis://localhost:6379`             |
-| `CS_SESSION_DATABASE_URL`   | 🔗 URL  de conexão ao Session ( Redis )                                   | `redis://localhost:6379`             |
-| `CS_OPERATION_DATABASE_URL` | 🔗 URL  de conexão ao Operation ( Redis )                                 | `redis://localhost:6379`             |
-| `CS_CONFIG_DATABASE_URL`    | 🔗 URL  de conexão ao Config ( Mongodb )                                  | `mongodb://127.0.0.1:27017`          |
-| `CS_CARDEX_DATABASE_URL`    | 🔗 URL  de conexão ao Cardex ( Mongodb )                                  | `mongodb://127.0.0.1:27017`          |
-| `CS_FOSSIL_DATABASE_URL`    | 🔗 URL  de conexão ao Fóssil ( Mongodb )                                 | `mongodb://127.0.0.1:27017`          |
-| `CS_SHELF_DATABASE_URL`     | 🔗 URL  de conexão ao Shelf ( Mongodb )                                   | `mongodb://127.0.0.1:27017`          |
-| `CS_POSTAGE_DATABASE_URL`   | 🔗 URL  de conexão ao Postage ( Mongodb )                                 | `mongodb://127.0.0.1:27017`          |
-| `CS_TABLE_DATABASE_URL`     | 🔗 URL  de conexão ao CSTable  ( Cassandra )                              | `127.0.0.1:9042`                     |
+| `DATABASE_URL`    | 🔗 URL  de conexão ao Abacás ( Redis )                                   | `redis://localhost:6379`             |
+| `MONGODB_POSTAGE_DATABASE_URL` | 🔗 URL  de conexão ao Postage ( Mongodb )                                 | `mongodb://127.0.0.1:27017`          |
+| `CASSANDRA_DATABASE_URL` | 🔗 URL  de conexão ao CSTable  ( Cassandra )                              | `127.0.0.1:9042`                     |
 | `CS_HTTP_PORT`              | 🚪 Porta HTTP do artefato                                                  | `8080`                               |
 | `CS_LOG_LEVEL`              | 🎚 Nível de geração de log                                              | `DEBUG, INFO, ERROR, CRTICAL, NOSET` |
 | `CS_LOG_CSRPC`              | 🎚 Nível de geração de log da lib[CS.RPC](https://github.com/mindbe/csrpc) | `DEBUG, INFO, ERROR, CRTICAL, NOSET` |
@@ -81,10 +70,10 @@ Isso evitará a propagação de parâmetros desnecessáriamente e evita poluir o
 | Variável               | Propósito                                                                                                | Valor                          |
 | ----------------------- | --------------------------------------------------------------------------------------------------------- | ------------------------------ |
 | `PYTHONPATH`          | 🔧 Path absoluto do artefato no container                                                                 | `/app`                       |
-| `CS_REGISTRY_URL`     | 🔗 URL do registro local, repositório de imagens Docker                                                  | `registry.cscloud.biz`       |
-| `CS_GIT_ACCESS_TOKEN` | 🔑Token de acesso ao Github                                                                               | `terdsfdsdhjh-dsdasdshssdd`  |
-| `CS_SERVICE_NAME`     | ⚙️ Nomeia o artefato, recbe seu valor dinamicamente                                                     | `SRVICE_NAME=${SRVICE_NAME}` |
-| `CS_TAG`              | 🏷 Tag da imagem do contêiner, valor dinamicamente do GitHub e deve cosrresponder a versão do artefato. | `CS_TAG=0.1.0`               |
+| `_REGISTRY_URL`     | 🔗 URL do registro local, repositório de imagens Docker                                                  | `registry.local.com` |
+| `_GIT_ACCESS_TOKEN` | 🔑Token de acesso ao Github                                                                               | `terdsfdsdhjh-sfhfsdgfk` |
+| `_SERVICE_NAME`     | ⚙️ Nomeia o artefato, recbe seu valor dinamicamente                                                     | `SRVICE_NAME=${SRVICE_NAME}` |
+| `_TAG`              | 🏷 Tag da imagem do contêiner, valor dinamicamente do GitHub e deve cosrresponder a versão do artefato. | `_TAG=0.1.0`               |
 
 Sugere-se criar um arquivo `.env` com as variáveis citadas, quando estiver usando container standalone ou ao executar um serviço Swarm individual.
 

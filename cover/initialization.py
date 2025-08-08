@@ -2,10 +2,9 @@
 
 __all__ = ['initialization']
 
-from csapp import get_logger
-
-from settings import TAG
+from logging import getLogger
+from settings import INFO
 
 
 async def initialization():
-    get_logger().info(TAG)
+    getLogger().info(INFO)

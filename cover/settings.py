@@ -1,45 +1,42 @@
-__all__ = ['__version__', 'SOLUTION_NAME', 'URL_PREFIX', 'SETTINGS', 'TAG']
+__all__ = ['__version__', 'SOLUTION_NAME', 'URL_PREFIX', 'SETTINGS', 'INFO']
 
 from os.path import dirname
 from os.path import split
 from socket import gethostname
 import sys
+from logging import getLogger
 
 from pydantic import Field
 from pydantic import RedisDsn
 from pydantic import ValidationError
+from pydantic import BaseSettings
+
 from hiredis import __version__ as hiredis_version
 from aioredis import __version__ as aioredis_version
 
-from csapp import CSSettingsBase
-from csapp import get_logger
-from csapp import __version__ as csapp_version
-from csrpc import __version__ as csrpc_version
 
-
-__version__ = '0.1.1'
-SOLUTION_NAME = 'CS.Custom_service-1'
+__version__ = '0.1.0'
+SOLUTION_NAME = 'COVER'
 URL_PREFIX = split(dirname(__file__))[1]
 
 
-class _SolutionSettings(CSSettingsBase):
+class Settings(BaseSettings):
     """Parâmetros de execução.
 
     Extenda esta classe com os parâmetros de execução da aplicação.
     """
-    CS_HTTP_PORT: int = Field(
+    HTTP_PORT: int = Field(
             default=8080,
-            env='CS_HTTP_PORT',
+            env='HTTP_PORT',
             description='Porta HTTP para servidão REST'
     )
-    CS_CORTEX_DATABASE_URL: RedisDsn = Field(env='CS_CORTEX_DATABASE_URL',
-                                             description='URL de acesso ao database CS.Cortex ( Redis )')
+    DATABASE_URL: RedisDsn = Field(env='DATABASE_URL', description='URL de acesso ao database Redis')
 
 
 try:
-    SETTINGS = _SolutionSettings()
+    SETTINGS = Settings()
 
-    TAG = (
+    INFO = (
         f'\n\n{"-" * 100}\n'
         f'Python: {sys.version}\n'
         f'Hostname: {gethostname()}\n'
@@ -50,17 +47,19 @@ try:
         f'Parâmetros de execução:\n'
         f'    {SETTINGS}\n'
         f'Versão das bibliotecas críticas:\n'
-        f'    CS.App: {csapp_version}\n'
-        f'    CS.RPC: {csrpc_version}\n'
         f'    aioredis: {aioredis_version}\n'
         f'    hiredis: {hiredis_version}\n'
         f'{"-" * 100}\n'
     )
 
-    get_logger().info(TAG)
+    getLogger().info(INFO)
 
 except ValidationError as err:
-    get_logger().critical(
+    # :TODO: Melhorar a mensagem de erro
+    #       para incluir o nome da variável que não foi definida.
+    #       Exemplo: HTTP_PORT não foi definido.
+    #       Exemplo: DATABASE_URL não foi definido.
+    getLogger().critical(
             '🚨 Alguma variável de ambiente não foi definida. Confira na documentação. Erros: \n%s',
             err
     )

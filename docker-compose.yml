@@ -3,28 +3,28 @@ version: '3.9'
 services:
   custom_service-1:
     hostname: '{{.Service.Name}}'
-    image: ${CS_REGISTRY_URL}/${CS_SERVICE_NAME}:${CS_TAG}
+    image: ${REGISTRY_URL}/${SERVICE_NAME}:${TAG}
     build:
       context: .
       args:
-        - CS_TAG=${CS_TAG}
-        - CS_GIT_ACCESS_TOKEN=${CS_GIT_ACCESS_TOKEN}
+        - TAG=${TAG}
+        - GIT_ACCESS_TOKEN=${GIT_ACCESS_TOKEN}
     # environment, configura as variáveis de ambiente necessária para funcionamento da aplicação.
     # ********************************************- I M P O R T A N T E!-**********************************************
     # Mantenha apenas as variáveis correspondentes as conexões e parâmetros para sua aplicação removendo as demais, que \
     # não serão utilizadas, em caso de novas variáveis adicione-as conforme abaixo.
     environment:
-      - CS_CORTEX_DATABASE_URL=${CS_CORTEX_DATABASE_URL}
-      - CS_HTTP_PORT=${CS_HTTP_PORT}
-      - CS_TAG=${CS_TAG}
-      - CS_REGISTRY_URL=${CS_REGISTRY_URL}
-      - CS_SERVICE_NAME=${CS_SERVICE_NAME}
+      - DATABASE_URL=${DATABASE_URL}
+      - HTTP_PORT=${HTTP_PORT}
+      - TAG=${_TAG}
+      - REGISTRY_URL=${REGISTRY_URL}
+      - SERVICE_NAME=${SERVICE_NAME}
       - PYTHONPATH=/app
-      - LOG_LEVEL=${CS_LOG_LEVEL}
-      - LOG_CSRPC=${CS_RPC_LOG_LEVEL}
+      - LOG_LEVEL=${LOG_LEVEL}
+      - LOG_CSRPC=${RPC_LOG_LEVEL}
     ports:
-      - ${CS_HTTP_PORT}:${CS_HTTP_PORT}
-    command: python /app/${CS_SERVICE_NAME}/__main__.py
+      - ${HTTP_PORT}:${HTTP_PORT}
+    command: python /app/${SERVICE_NAME}/__main__.py
 #    Verifica a saúde da API
 #    Ref:
 #    https://docs.docker.com/compose/compose-file/#healthcheck
